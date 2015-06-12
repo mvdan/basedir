@@ -64,17 +64,18 @@ func (ds dirSet) dirs() ([]string, error) {
 		return nil, err
 	}
 	dirs := []string{dir}
-	if ds.dirsVar != "" {
-		extra := os.Getenv(ds.dirsVar)
-		if extra == "" {
-			extra = ds.dirsDef
+	if ds.dirsVar == "" {
+		return dirs, nil
+	}
+	extra := os.Getenv(ds.dirsVar)
+	if extra == "" {
+		extra = ds.dirsDef
+	}
+	for _, path := range filepath.SplitList(extra) {
+		if path == "" {
+			continue
 		}
-		for _, path := range filepath.SplitList(extra) {
-			if path == "" {
-				continue
-			}
-			dirs = append(dirs, path)
-		}
+		dirs = append(dirs, path)
 	}
 	return dirs, nil
 }
