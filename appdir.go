@@ -10,31 +10,27 @@ import (
 	"path/filepath"
 )
 
-// DirSet denotes a group of directories that share a common purpose
-type DirSet struct {
-	homeVar, homeDef string
+type dirSet struct {
+	dirVar, dirDef   string
 	dirsVar, dirsDef string
 }
 
 var (
-	// Cache provides dirs to store temporary cache files
-	Cache = DirSet{
-		homeVar: "XDG_CONFIG_HOME",
-		homeDef: ".config",
-		dirsVar: "XDG_CONFIG_DIRS",
-		dirsDef: "/etc/xdg",
-	}
-	// Config provides dirs to store persistent config files
-	Config = DirSet{
-		homeVar: "XDG_CACHE_HOME",
-		homeDef: ".cache",
+	cache = dirSet{
+		dirVar:  "XDG_CACHE_HOME",
+		dirDef:  ".cache",
 		dirsVar: "",
 		dirsDef: "",
 	}
-	// Data provides dirs to store persistent data
-	Data = DirSet{
-		homeVar: "XDG_DATA_HOME",
-		homeDef: ".local/share",
+	config = dirSet{
+		dirVar:  "XDG_CONFIG_HOME",
+		dirDef:  ".config",
+		dirsVar: "XDG_CONFIG_DIRS",
+		dirsDef: "/etc/xdg",
+	}
+	data = dirSet{
+		dirVar:  "XDG_DATA_HOME",
+		dirDef:  ".local/share",
 		dirsVar: "XDG_DATA_DIRS",
 		dirsDef: "/usr/local/share:/usr/share",
 	}
@@ -51,24 +47,19 @@ func userHomeDir() (string, error) {
 	return curUser.HomeDir, nil
 }
 
-// Home returns the directory of this set associated to the current user, and
-// an error if any.
-func (ds DirSet) Home() (string, error) {
-	if dir := os.Getenv(ds.homeVar); dir != "" {
+func (ds dirSet) dir() (string, error) {
+	if dir := os.Getenv(ds.dirVar); dir != "" {
 		return dir, nil
 	}
 	home, err := userHomeDir()
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(home, ds.homeDef), nil
+	return filepath.Join(home, ds.dirDef), nil
 }
 
-// Dirs returns all the directories of this set associated to the current
-// user, and an error if any. The directories returned are ordered by
-// preference.
-func (ds DirSet) Dirs() ([]string, error) {
-	dir, err := ds.Home()
+func (ds dirSet) dirs() ([]string, error) {
+	dir, err := ds.dir()
 	if err != nil {
 		return nil, err
 	}
@@ -86,4 +77,28 @@ func (ds DirSet) Dirs() ([]string, error) {
 		}
 	}
 	return dirs, nil
+}
+
+func Cache() (string, error) {
+	return cache.dir()
+}
+
+func CacheList() ([]string, error) {
+	return cache.dirs()
+}
+
+func Config() (string, error) {
+	return config.dir()
+}
+
+func ConfigList() ([]string, error) {
+	return config.dirs()
+}
+
+func Data() (string, error) {
+	return data.dir()
+}
+
+func DataList() ([]string, error) {
+	return data.dirs()
 }
