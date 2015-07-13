@@ -5,6 +5,7 @@ package basedir
 
 import (
 	"errors"
+	"os"
 	"os/user"
 )
 
@@ -14,6 +15,15 @@ func userHomeDir() (string, error) {
 		return "", errors.New("unable to determine your home dir")
 	}
 	return curUser.HomeDir, nil
+}
+
+func firstGetenv(evs ...string) string {
+	for _, ev := range evs {
+		if v := os.Getenv(ev); v != "" {
+			return v
+		}
+	}
+	return ""
 }
 
 // Cache returns the base cache directory and an error, if any.
