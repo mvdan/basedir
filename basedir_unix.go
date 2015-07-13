@@ -40,7 +40,7 @@ func (ds dirSet) dir() (string, error) {
 	if ds.dirVal != "" {
 		return ds.dirVal, nil
 	}
-	home, err := userHomeDir()
+	home, err := homeDir()
 	if err != nil {
 		return "", err
 	}

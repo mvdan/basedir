@@ -9,7 +9,7 @@ import (
 	"os/user"
 )
 
-func userHomeDir() (string, error) {
+func homeDir() (string, error) {
 	curUser, err := user.Current()
 	if err != nil {
 		return "", errors.New("unable to determine your home dir")
