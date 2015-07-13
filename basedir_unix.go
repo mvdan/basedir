@@ -1,7 +1,7 @@
-/* Copyright (c) 2015, Daniel Martí <mvdan@mvdan.cc> */
-/* See LICENSE for licensing information */
+// Copyright (c) 2015, Daniel Martí <mvdan@mvdan.cc>
+// See LICENSE for licensing information
 
-// +build darwin dragonfly freebsd linux nacl netbsd openbsd solaris
+// +build darwin dragonfly freebsd linux netbsd openbsd
 
 package basedir
 
