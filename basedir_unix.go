@@ -11,34 +11,34 @@ import (
 )
 
 type dirSet struct {
-	dirVar, dirDef   string
-	dirsVar, dirsDef string
+	dirVal, dirDef   string
+	dirsVal, dirsDef string
 }
 
 var (
 	cacheSet = dirSet{
-		dirVar:  "XDG_CACHE_HOME",
+		dirVal:  os.Getenv("XDG_CACHE_HOME"),
 		dirDef:  ".cache",
-		dirsVar: "",
+		dirsVal: "",
 		dirsDef: "",
 	}
 	configSet = dirSet{
-		dirVar:  "XDG_CONFIG_HOME",
+		dirVal:  os.Getenv("XDG_CONFIG_HOME"),
 		dirDef:  ".config",
-		dirsVar: "XDG_CONFIG_DIRS",
+		dirsVal: os.Getenv("XDG_CONFIG_DIRS"),
 		dirsDef: "/etc/xdg",
 	}
 	dataSet = dirSet{
-		dirVar:  "XDG_DATA_HOME",
+		dirVal:  os.Getenv("XDG_DATA_HOME"),
 		dirDef:  ".local/share",
-		dirsVar: "XDG_DATA_DIRS",
+		dirsVal: os.Getenv("XDG_DATA_DIRS"),
 		dirsDef: "/usr/local/share:/usr/share",
 	}
 )
 
 func (ds dirSet) dir() (string, error) {
-	if dir := os.Getenv(ds.dirVar); dir != "" {
-		return dir, nil
+	if ds.dirVal != "" {
+		return ds.dirVal, nil
 	}
 	home, err := userHomeDir()
 	if err != nil {
@@ -53,12 +53,12 @@ func (ds dirSet) dirs() ([]string, error) {
 		return nil, err
 	}
 	dirs := []string{dir}
-	if ds.dirsVar == "" {
+	if ds.dirsVal == "" {
 		return dirs, nil
 	}
 	extra := ds.dirsDef
-	if v := os.Getenv(ds.dirsVar); v != "" {
-		extra = v
+	if ds.dirsVal != "" {
+		extra = ds.dirsVal
 	}
 	dirs = append(dirs, filepath.SplitList(extra)...)
 	return dirs, nil
