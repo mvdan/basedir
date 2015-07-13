@@ -60,12 +60,7 @@ func (ds dirSet) dirs() ([]string, error) {
 	if extra == "" {
 		extra = ds.dirsDef
 	}
-	for _, path := range filepath.SplitList(extra) {
-		if path == "" {
-			continue
-		}
-		dirs = append(dirs, path)
-	}
+	dirs = append(dirs, filepath.SplitList(extra)...)
 	return dirs, nil
 }
 
