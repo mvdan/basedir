@@ -56,9 +56,9 @@ func (ds dirSet) dirs() ([]string, error) {
 	if ds.dirsVar == "" {
 		return dirs, nil
 	}
-	extra := os.Getenv(ds.dirsVar)
-	if extra == "" {
-		extra = ds.dirsDef
+	extra := ds.dirsDef
+	if v := os.Getenv(ds.dirsVar); v != "" {
+		extra = v
 	}
 	dirs = append(dirs, filepath.SplitList(extra)...)
 	return dirs, nil
