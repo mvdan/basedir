@@ -37,9 +37,6 @@ var (
 )
 
 func userHomeDir() (string, error) {
-	if home := os.Getenv("HOME"); home != "" {
-		return home, nil
-	}
 	curUser, err := user.Current()
 	if err != nil {
 		return "", errors.New("unable to determine your home dir")
