@@ -3,7 +3,7 @@
 
 // +build darwin dragonfly freebsd linux nacl netbsd openbsd solaris
 
-package appdir
+package basedir
 
 import (
 	"os"
