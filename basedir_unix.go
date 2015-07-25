@@ -10,80 +10,44 @@ import (
 	"path/filepath"
 )
 
-type dirSet struct {
-	dirVal, dirDef   string
-	dirsVal, dirsDef string
+type envDir struct {
+	val, def string
 }
 
 var (
-	cacheSet = dirSet{
-		dirVal:  os.Getenv("XDG_CACHE_HOME"),
-		dirDef:  ".cache",
-		dirsVal: "",
-		dirsDef: "",
+	cacheSet = envDir{
+		val: os.Getenv("XDG_CACHE_HOME"),
+		def: ".cache",
 	}
-	configSet = dirSet{
-		dirVal:  os.Getenv("XDG_CONFIG_HOME"),
-		dirDef:  ".config",
-		dirsVal: os.Getenv("XDG_CONFIG_DIRS"),
-		dirsDef: "/etc/xdg",
+	configSet = envDir{
+		val: os.Getenv("XDG_CONFIG_HOME"),
+		def: ".config",
 	}
-	dataSet = dirSet{
-		dirVal:  os.Getenv("XDG_DATA_HOME"),
-		dirDef:  ".local/share",
-		dirsVal: os.Getenv("XDG_DATA_DIRS"),
-		dirsDef: "/usr/local/share:/usr/share",
+	dataSet = envDir{
+		val: os.Getenv("XDG_DATA_HOME"),
+		def: ".local/share",
 	}
 )
 
-func (ds dirSet) dir() (string, error) {
-	if ds.dirVal != "" {
-		return ds.dirVal, nil
+func (ds envDir) dir() (string, error) {
+	if ds.val != "" {
+		return ds.val, nil
 	}
 	home, err := homeDir()
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(home, ds.dirDef), nil
-}
-
-func (ds dirSet) dirs() ([]string, error) {
-	dir, err := ds.dir()
-	if err != nil {
-		return nil, err
-	}
-	dirs := []string{dir}
-	if ds.dirsVal == "" {
-		return dirs, nil
-	}
-	extra := ds.dirsDef
-	if ds.dirsVal != "" {
-		extra = ds.dirsVal
-	}
-	dirs = append(dirs, filepath.SplitList(extra)...)
-	return dirs, nil
+	return filepath.Join(home, ds.def), nil
 }
 
 func cache() (string, error) {
 	return cacheSet.dir()
 }
 
-func cacheList() ([]string, error) {
-	return cacheSet.dirs()
-}
-
 func config() (string, error) {
 	return configSet.dir()
 }
 
-func configList() ([]string, error) {
-	return configSet.dirs()
-}
-
 func data() (string, error) {
 	return dataSet.dir()
-}
-
-func dataList() ([]string, error) {
-	return dataSet.dirs()
 }

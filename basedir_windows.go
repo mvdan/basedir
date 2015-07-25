@@ -17,22 +17,10 @@ func cache() (string, error) {
 	return cacheDir, nil
 }
 
-func cacheList() ([]string, error) {
-	return []string{cacheDir}, nil
-}
-
 func config() (string, error) {
 	return configDir, nil
 }
 
-func configList() ([]string, error) {
-	return []string{configDir}, nil
-}
-
 func data() (string, error) {
 	return configDir, nil
-}
-
-func dataList() ([]string, error) {
-	return []string{configDir}, nil
 }
