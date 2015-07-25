@@ -4,20 +4,19 @@
 package basedir
 
 import (
-	"errors"
 	"os"
 	"os/user"
 	"path/filepath"
 )
 
-// Cache returns the base cache directory and an error, if any.
-func Cache() (string, error) {
-	return clean(cache())
+// Cache returns the base cache directory.
+func Cache() string {
+	return cache()
 }
 
-// Data returns the base data directory and an error, if any.
-func Data() (string, error) {
-	return clean(data())
+// Data returns the base data directory.
+func Data() string {
+	return data()
 }
 
 func firstGetenv(def string, evs ...string) string {
@@ -36,17 +35,7 @@ func firstGetenv(def string, evs ...string) string {
 func homeDir() (string, error) {
 	curUser, err := user.Current()
 	if err != nil {
-		return "", errors.New("unable to determine your home dir")
-	}
-	return curUser.HomeDir, nil
-}
-
-func clean(dir string, err error) (string, error) {
-	if err != nil {
 		return "", err
 	}
-	if dir == "" {
-		return "", errors.New("dir not found")
-	}
-	return dir, nil
+	return curUser.HomeDir, nil
 }

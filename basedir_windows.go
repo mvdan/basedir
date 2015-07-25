@@ -12,10 +12,10 @@ var (
 	dataDir  = os.Getenv("APPDATA")
 )
 
-func cache() (string, error) {
-	return cacheDir, nil
+func cache() string {
+	return cacheDir
 }
 
-func data() (string, error) {
-	return dataDir, nil
+func data() string {
+	return dataDir
 }

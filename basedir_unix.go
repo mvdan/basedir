@@ -5,19 +5,15 @@
 
 package basedir
 
-type envDir struct {
-	val, def string
-}
-
 var (
 	cacheDir = firstGetenv(".cache", "XDG_CACHE_HOME")
 	dataDir  = firstGetenv(".config", "XDG_CONFIG_HOME")
 )
 
-func cache() (string, error) {
-	return cacheDir, nil
+func cache() string {
+	return cacheDir
 }
 
-func data() (string, error) {
-	return dataDir, nil
+func data() string {
+	return dataDir
 }
