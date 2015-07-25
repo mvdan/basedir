@@ -8,19 +8,14 @@ import (
 )
 
 var (
-	cacheDir  = firstGetenv("TEMP", "TMP")
-	configDir = os.Getenv("APPDATA")
-	dataDir   = os.Getenv("APPDATA")
+	cacheDir = firstGetenv("TEMP", "TMP")
+	dataDir  = os.Getenv("APPDATA")
 )
 
 func cache() (string, error) {
 	return cacheDir, nil
 }
 
-func config() (string, error) {
-	return configDir, nil
-}
-
 func data() (string, error) {
-	return configDir, nil
+	return dataDir, nil
 }
