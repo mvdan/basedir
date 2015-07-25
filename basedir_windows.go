@@ -3,13 +3,9 @@
 
 package basedir
 
-import (
-	"os"
-)
-
 var (
-	cacheDir = firstGetenv("TEMP", "TMP")
-	dataDir  = os.Getenv("APPDATA")
+	cacheDir = firstGetenv("", "TEMP", "TMP")
+	dataDir  = firstGetenv("", "APPDATA")
 )
 
 func cache() string {
