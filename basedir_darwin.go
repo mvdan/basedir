@@ -5,7 +5,7 @@ package basedir
 
 var (
 	cacheDir = firstGetenv("Library/Caches")
-	dataDir  = firstGetenv("Library")
+	dataDir  = firstGetenv("Library/Application Support")
 )
 
 func cache() string {
