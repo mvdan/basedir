@@ -6,6 +6,7 @@ package basedir
 var (
 	cacheDir = firstGetenv("", "TEMP", "TMP")
 	dataDir  = firstGetenv("", "APPDATA")
+	configDir  = firstGetenv("", "APPDATA")
 )
 
 func cache() string {
@@ -14,4 +15,8 @@ func cache() string {
 
 func data() string {
 	return dataDir
+}
+
+func config() string {
+	return configDir
 }

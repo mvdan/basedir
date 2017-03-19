@@ -19,6 +19,11 @@ func Data() string {
 	return data()
 }
 
+// Config returns the base config directory.
+func Config() string {
+	return config()
+}
+
 func firstGetenv(def string, evs ...string) string {
 	for _, ev := range evs {
 		if v := os.Getenv(ev); v != "" {
