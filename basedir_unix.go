@@ -7,7 +7,8 @@ package basedir
 
 var (
 	cacheDir = firstGetenv(".cache", "XDG_CACHE_HOME")
-	dataDir  = firstGetenv(".config", "XDG_CONFIG_HOME")
+	dataDir  = firstGetenv(".local/share", "XDG_DATA_HOME")
+	configDir  = firstGetenv(".config", "XDG_CONFIG_HOME")
 )
 
 func cache() string {
@@ -16,4 +17,8 @@ func cache() string {
 
 func data() string {
 	return dataDir
+}
+
+func config() string {
+	return configDir
 }
